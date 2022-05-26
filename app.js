@@ -5,6 +5,11 @@ const Bodyparser=require("body-parser")
 let app=Express()
 app.use(Bodyparser.urlencoded({extended:true}))
 app.use(Bodyparser.json())
+app.use((req, res, next) => { 
+    res.setHeader("Access-Control-Allow-Origin", "*");  
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"   ); 
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS"   ); 
+    next(); });
 
 var bloodModel=Mongoose.model("bloods",
 new Mongoose.Schema(
@@ -37,7 +42,15 @@ app.post("/api/adddonor",(req,res)=>{
 })
 
 app.get("/api/getdonor",(req,res)=>{
-    res.send("hello")  
+    bloodModel.find((error,data)=>{
+        if(error)
+        {
+            res.send(error)
+        }
+        else{
+            res.send(data)
+        }
+    })
 
 })
 
