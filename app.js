@@ -41,6 +41,35 @@ app.post("/api/adddonor",(req,res)=>{
 
 })
 
+app.post("/api/delete",(req,res)=>{
+ var getId=req.body
+ bloodModel.findByIdAndRemove(getId,(error,data)=>{
+    if(error){
+        res.send({"status":"error","data":error})
+    }
+
+    else
+    {
+        res.send({"status":"success","data":data})
+    }  
+ }
+ )
+})
+
+app.post("/api/search",(req,res)=>{
+var getName=req.body
+bloodModel.find(getName,(error,data)=>{
+    if(error){
+        res.send({"status":"error","data":error})
+    }
+
+    else
+    {
+        res.send({"status":"success","data":data})
+    }
+})
+})
+
 app.get("/api/getdonor",(req,res)=>{
     bloodModel.find((error,data)=>{
         if(error)
